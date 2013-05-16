@@ -49,7 +49,8 @@ void ApplyANSIColors(NSTextStorage *textStorage, NSRange textStorageRange, NSStr
 	NSString *affectedString = [[textStorage string] substringWithRange:textStorageRange];
 
     NSDictionary *errorAttributes = @{NSForegroundColorAttributeName:[NSColor colorWithCalibratedRed:0.717 green:0.000 blue:0.028 alpha:1.000]};
-    NSDictionary *greenAttributes = @{NSForegroundColorAttributeName:[NSColor colorWithCalibratedRed:0.186 green:0.582 blue:0.017 alpha:1.000]};
+    NSDictionary *goodAttributes = @{NSForegroundColorAttributeName:[NSColor colorWithCalibratedRed:0.186 green:0.582 blue:0.017 alpha:1.000]};
+	NSDictionary *debugAttributes = @{NSForegroundColorAttributeName:[NSColor colorWithCalibratedRed:0.981 green:0.491 blue:0.118 alpha:1.000]};
     
     // Apply red color to strings looking like ***this***.
     NSError *error = NULL;
@@ -72,7 +73,19 @@ void ApplyANSIColors(NSTextStorage *textStorage, NSRange textStorageRange, NSStr
     matches = [regex matchesInString:affectedString options:0 range:NSMakeRange(0, affectedString.length)];
     for (NSTextCheckingResult *match in matches) {
         NSRange matchRange = match.range;
-        [textStorage addAttributes:greenAttributes range:matchRange];
+        [textStorage addAttributes:goodAttributes range:matchRange];
+    }
+	
+	// Apply orange color to strings looking like :::this:::
+    error = NULL;
+    regex = [NSRegularExpression regularExpressionWithPattern:@":::.*?:::"
+                                                      options:(NSRegularExpressionCaseInsensitive |
+                                                               NSRegularExpressionDotMatchesLineSeparators)
+                                                        error:&error];
+    matches = [regex matchesInString:affectedString options:0 range:NSMakeRange(0, affectedString.length)];
+    for (NSTextCheckingResult *match in matches) {
+        NSRange matchRange = match.range;
+        [textStorage addAttributes:debugAttributes range:matchRange];
     }
 }
 

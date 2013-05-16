@@ -8,6 +8,7 @@
 {
 	NSLog(@"A wild *** error *** appears!");
     NSLog(@"Here's some words of ---good news--- for you.");
+	NSLog(@"There's some ::: debugging ::: going on.");
 	NSLog(@"Here's an incomplete *** pair.");
 }
 
